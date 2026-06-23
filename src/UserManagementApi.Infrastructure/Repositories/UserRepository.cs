@@ -1,6 +1,8 @@
 using System.Formats.Asn1;
 using System.Security;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.EntityFrameworkCore;
+using UserManagementApi.Application.DTOs;
 using UserManagementApi.Domain.Entities;
 using UserManagementApi.Domain.Interfaces;
 using UserManagementApi.Infrastructure.Data;
@@ -15,11 +17,11 @@ public class UserRepository(AppDbContext dbContext) : IUserRepository
         {
           Id = Guid.NewGuid(),
           FullName = userEntity.FullName,
-          Password = userEntity.Password,
-          Email = userEntity.Email
+          Email = userEntity.Email,
+          Password = userEntity.Password
         };
 
-        var findUser = await dbContext.users.AnyAsync(x => x.Email == userEntity.Email);
+        var findUser = await ExistByEmailAsync(userEntity.Email);
         if(findUser)
         {
             throw new Exception("User already exist in database");
@@ -27,5 +29,10 @@ public class UserRepository(AppDbContext dbContext) : IUserRepository
         dbContext.users.Add(user);
         await dbContext.SaveChangesAsync();
         return user;
+    }
+
+    public async Task<bool> ExistByEmailAsync(string Email)
+    {
+        return await dbContext.users.AnyAsync(x => x.Email == Email);
     }
 }

@@ -12,7 +12,7 @@ using UserManagementApi.Infrastructure.Data;
 namespace UserManagementApi.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260623074643_InitialCreate")]
+    [Migration("20260623082743_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
