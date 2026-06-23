@@ -1,7 +1,12 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using UserManagementApi.Domain.Interfaces;
+using UserManagementApi.Infrastructure.Auth;
 using UserManagementApi.Infrastructure.Data;
 using UserManagementApi.Infrastructure.Repositories;
 
@@ -16,6 +21,19 @@ public static class DependencyInjection
                     options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
         });
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ITokenProvider, TokenProvider>();
+        services.AddAuthorization();
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters.ValidIssuer = configuration["Jwt:Issuer"];
+            options.TokenValidationParameters.ValidAudience = configuration["Jwt:Audience"];
+            options.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Secret"]!));
+        });
         return services;
     }
 }

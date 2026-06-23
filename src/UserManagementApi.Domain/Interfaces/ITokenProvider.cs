@@ -1,0 +1,8 @@
+using UserManagementApi.Domain.Entities;
+
+namespace UserManagementApi.Domain.Interfaces;
+
+public interface ITokenProvider
+{
+    string Create(UserEntity userEntity);
+}

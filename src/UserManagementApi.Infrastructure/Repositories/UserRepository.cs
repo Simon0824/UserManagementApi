@@ -1,5 +1,7 @@
 using System.Formats.Asn1;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security;
+using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.EntityFrameworkCore;
 using UserManagementApi.Application.DTOs;
@@ -11,7 +13,7 @@ namespace UserManagementApi.Infrastructure.Repositories;
 
 public class UserRepository(AppDbContext dbContext) : IUserRepository
 {
-    public async Task<UserEntity> AddUser(UserEntity userEntity)
+    public async Task<UserEntity> RegisterUser(UserEntity userEntity)
     {
         UserEntity user = new ()
         {

@@ -8,6 +8,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddApiDI(builder.Configuration);
 
+
 var app = builder.Build();
 
 if(app.Environment.IsDevelopment())
@@ -17,6 +18,9 @@ if(app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

@@ -9,8 +9,8 @@ namespace UserManagementApi.Api.Controllers;
 [Route("api/[controller]")]
 public class UserController(IUserRepository userRepository) : ControllerBase
 {
-    [HttpPost("AddUser")]
-    public async Task<IActionResult> AddUserToDb([FromBody] AddUserDTO dto)
+    [HttpPost("Register")]
+    public async Task<IActionResult> RegisterUserToDb([FromBody] AddUserDTO dto)
     {
         UserEntity user = new()
         {
@@ -19,8 +19,7 @@ public class UserController(IUserRepository userRepository) : ControllerBase
           Email = dto.Email,
           Password = dto.Password
         };
-        var result = await userRepository.AddUser(user);
+        var result = await userRepository.RegisterUser(user);
         return Ok(result);
-
     }
 }
