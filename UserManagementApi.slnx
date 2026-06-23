@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/UserManagementApi.Application/UserManagementApi.Application.csproj" />
+    <Project Path="src/UserManagementApi.Domain/UserManagementApi.Domain.csproj" />
+    <Project Path="src/UserManagementApi.Api/UserManagementApi.Api.csproj" />
+    <Project Path="src/UserManagementApi.Infrastructure/UserManagementApi.Infrastructure.csproj" />
+  </Folder>
+</Solution>
