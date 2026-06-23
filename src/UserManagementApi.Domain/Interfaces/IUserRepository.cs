@@ -4,5 +4,5 @@ namespace UserManagementApi.Domain.Interfaces;
 
 public interface IUserRepository
 {
-    Task<UserEntity> AddUser();
+    Task<UserEntity> AddUser(UserEntity userEntity);
 }

@@ -5,5 +5,5 @@ namespace UserManagementApi.Infrastructure.Data;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    DbSet<UserEntity> users {get; set;}
+    public DbSet<UserEntity> users {get; set;}
 }
