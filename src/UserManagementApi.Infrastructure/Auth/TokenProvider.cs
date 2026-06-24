@@ -21,7 +21,7 @@ public class TokenProvider(IConfiguration configuration) : ITokenProvider
         {
             Subject = new ClaimsIdentity([
                 new Claim(JwtRegisteredClaimNames.Sub, userEntity.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, userEntity.Email)
+                new Claim(JwtRegisteredClaimNames.Email, userEntity.Email!)
             ]),
             Expires = DateTime.UtcNow.AddMinutes(10),
             Issuer = configuration["Jwt:Issuer"],

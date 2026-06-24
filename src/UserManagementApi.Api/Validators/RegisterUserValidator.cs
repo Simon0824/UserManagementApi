@@ -4,7 +4,7 @@ using UserManagementApi.Application.DTOs;
 
 namespace UserManagementApi.Api.Validators;
 
-public class RegisterUserValidator : AbstractValidator<AddUserDTO>
+public class RegisterUserValidator : AbstractValidator<RegisterUserDTO>
 {
     public RegisterUserValidator()
     {

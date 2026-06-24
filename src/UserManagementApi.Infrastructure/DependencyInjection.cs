@@ -1,10 +1,12 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using UserManagementApi.Domain.Entities;
 using UserManagementApi.Domain.Interfaces;
 using UserManagementApi.Infrastructure.Auth;
 using UserManagementApi.Infrastructure.Data;
@@ -22,6 +24,11 @@ public static class DependencyInjection
         });
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ITokenProvider, TokenProvider>();
+
+        services.AddIdentity<UserEntity, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
+
         services.AddAuthorization();
         services.AddAuthentication(options =>
         {
@@ -34,6 +41,7 @@ public static class DependencyInjection
             options.TokenValidationParameters.ValidAudience = configuration["Jwt:Audience"];
             options.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Secret"]!));
         });
+
         return services;
     }
 }
