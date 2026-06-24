@@ -1,6 +1,9 @@
+using FluentValidation;
 using UserManagementApi.Api;
 using UserManagementApi.Api.Extentions;
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 builder.Services.AddControllers();
 
