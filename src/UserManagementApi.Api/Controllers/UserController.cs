@@ -30,7 +30,11 @@ public class UsersController(ISender sender) : ControllerBase
     [HttpPost("Auth/Login")]
     public async Task<IActionResult> LoginUser([FromBody] LoginUserDTO dto)
     {
-        return Ok();
+        var loginResult =  await sender.Send(new LoginUserCommand(
+            dto.Email,
+            dto.Password
+        ));
+        return Ok(loginResult);
     }
 
     [HttpGet("GetAllUsers")]

@@ -1,0 +1,7 @@
+namespace UserManagementApi.Application.DTOs;
+
+public record LoginUserResultDTO(
+    string FullName,
+    string Email,
+    string Token
+);

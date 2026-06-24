@@ -21,13 +21,13 @@ public class UserRepository(UserManager<UserEntity> userManager) : IUserReposito
         return await userManager.CreateAsync(user, Password);
     }
 
-    public async Task<UserEntity> CheckUserEmail(string Email)
+    public async Task<UserEntity> FindByEmailUserMan(string Email)
     {
-        var user = await userManager.FindByEmailAsync(Email);
-        if(user is null)
-        {
-            throw new Exception("User does not exist in database!");
-        }
-        return user;
+        return await userManager.FindByEmailAsync(Email);
+    }
+
+    public async Task<bool> CheckPasswordUserMan(UserEntity user, string Password)
+    {
+        return await userManager.CheckPasswordAsync(user, Password);
     }
 }
