@@ -10,7 +10,7 @@ namespace UserManagementApi.Api.Controllers;
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [ApiController]
 [Route("api/[controller]")]
-public class UserController(IUserRepository userRepository, ITokenProvider tokenProvider) : ControllerBase
+public class UsersController(IUserRepository userRepository, ITokenProvider tokenProvider) : ControllerBase
 {
     [AllowAnonymous]
     [HttpPost("Register")]
