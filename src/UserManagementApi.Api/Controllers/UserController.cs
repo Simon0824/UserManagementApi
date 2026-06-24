@@ -36,10 +36,4 @@ public class UsersController(ISender sender) : ControllerBase
         ));
         return Ok(loginResult);
     }
-
-    [HttpGet("GetAllUsers")]
-    public async Task<IActionResult> GetAllUsersFromDb()
-    {
-        return Ok();
-    }
 }

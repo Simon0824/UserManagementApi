@@ -24,7 +24,7 @@ public class LoginUserCommandHandler(IUserRepository userRepository, ITokenProvi
 
         var Token = tokenProvider.Create(user);
         return new LoginUserResultDTO(
-            FullName: user.FullName,
+            FullName: user.FullName!,
             Email: user.Email!,
             Token: Token
         );

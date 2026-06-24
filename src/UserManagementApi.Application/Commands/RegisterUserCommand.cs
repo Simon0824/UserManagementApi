@@ -14,6 +14,7 @@ public class RegisterUserCommandHandler(IUserRepository userRepository) : IReque
         {
             FullName = request.FullName,
             Email = request.Email,
+            UserName = request.Email
         };
         var result = await userRepository.UserRegister(user, request.Password);
         if(!result.Succeeded)
