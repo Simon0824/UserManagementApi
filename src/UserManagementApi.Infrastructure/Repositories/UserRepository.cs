@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Formats.Asn1;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security;
@@ -36,5 +37,28 @@ public class UserRepository(AppDbContext dbContext) : IUserRepository
     public async Task<bool> ExistByEmailAsync(string Email)
     {
         return await dbContext.users.AnyAsync(x => x.Email == Email);
+    }
+
+    public async Task<UserEntity> CheckByEmailAndPassword(string Email, string Password)
+    {
+        var user = await dbContext.users.FirstOrDefaultAsync(x => x.Email == Email && x.Password == Password);
+        if(user is null)
+        {
+            throw new Exception("User does not exist in database");
+        }
+        return user;
+    }
+
+    public async Task<IEnumerable<UserEntity>> GetAllUsers()
+    {
+      return await dbContext.users
+        .AsNoTracking()
+        .Select(u => new UserEntity
+        {
+           Id = u.Id,
+           FullName = u.FullName,
+           Email = u.Email
+        })
+        .ToListAsync();
     }
 }

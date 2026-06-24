@@ -1,10 +1,10 @@
 using UserManagementApi.Api;
-
+using UserManagementApi.Api.Extentions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerWithAuth();
 
 builder.Services.AddApiDI(builder.Configuration);
 
