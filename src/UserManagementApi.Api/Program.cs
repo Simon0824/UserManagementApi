@@ -1,6 +1,8 @@
+using System.Runtime.InteropServices;
 using FluentValidation;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Microsoft.VisualBasic;
@@ -8,6 +10,7 @@ using UserManagementApi.Api;
 using UserManagementApi.Api.Exceptions;
 using UserManagementApi.Api.Extentions;
 using UserManagementApi.Domain.Constants;
+using UserManagementApi.Domain.Entities;
 using UserManagementApi.Infrastructure.Data;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +44,8 @@ if(app.Environment.IsDevelopment())
     dbContext.Database.Migrate();
 
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserEntity>>();
+
     if(!await roleManager.RoleExistsAsync(Roles.Admin))
     {
         await roleManager.CreateAsync(new IdentityRole(Roles.Admin));
@@ -50,7 +55,26 @@ if(app.Environment.IsDevelopment())
         await roleManager.CreateAsync(new IdentityRole(Roles.Member));
     }
 
-
+    var adminEmail = "admin@user.com";
+    if(await userManager.FindByEmailAsync(adminEmail) is null)
+    {
+        UserEntity admin = new()
+        {
+          FullName = "Admin",
+          Email = adminEmail,  
+          UserName = adminEmail
+        };
+        var result = await userManager.CreateAsync(admin, "Admin123!");
+        if(result.Succeeded)
+        {
+            await userManager.UpdateAsync(admin);
+            await userManager.AddToRoleAsync(admin, Roles.Admin);
+        }
+        else
+        {
+               Console.WriteLine(string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
+    }
 }
 
 app.UseHttpsRedirection();
