@@ -9,4 +9,5 @@ public interface IUserRepository
     Task<UserEntity> FindByEmailUserMan(string Email);
     Task<bool> CheckPasswordUserMan(UserEntity user, string Password);
     Task AddRoleToUser(UserEntity user);
+    Task<IList<string>> GetUserRole(UserEntity user);
 }

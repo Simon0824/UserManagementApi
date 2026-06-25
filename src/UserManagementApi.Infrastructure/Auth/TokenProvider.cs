@@ -10,7 +10,7 @@ namespace UserManagementApi.Infrastructure.Auth;
 
 public class TokenProvider(IConfiguration configuration) : ITokenProvider
 {
-    public string Create(UserEntity userEntity)
+    public string Create(UserEntity userEntity, List<Claim> claims)
     {
         var secretKey = configuration["Jwt:Secret"];
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!));
@@ -19,10 +19,7 @@ public class TokenProvider(IConfiguration configuration) : ITokenProvider
 
         var descriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity([
-                new Claim(JwtRegisteredClaimNames.Sub, userEntity.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, userEntity.Email!)
-            ]),
+            Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddMinutes(10),
             Issuer = configuration["Jwt:Issuer"],
             Audience = configuration["Jwt:Audience"],

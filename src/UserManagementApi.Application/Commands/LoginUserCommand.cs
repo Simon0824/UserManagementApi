@@ -1,5 +1,5 @@
-using System.ComponentModel;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using MediatR;
 using Microsoft.IdentityModel.JsonWebTokens;
 using UserManagementApi.Application.DTOs;
@@ -24,7 +24,16 @@ public class LoginUserCommandHandler(IUserRepository userRepository, ITokenProvi
             throw new Exception("Uncorrect password");
         }
 
-        var Token = tokenProvider.Create(user);
+        var role = await userRepository.GetUserRole(user);
+
+        List<Claim> claims = [
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+                ..role.Select(r => new Claim(ClaimTypes.Role, r))
+        ];
+
+        var Token = tokenProvider.Create(user, claims);
+
         return new LoginUserResultDTO(
             FullName: user.FullName!,
             Email: user.Email!,
