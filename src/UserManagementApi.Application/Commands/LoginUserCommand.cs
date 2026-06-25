@@ -37,6 +37,7 @@ public class LoginUserCommandHandler(IUserRepository userRepository, ITokenProvi
         return new LoginUserResultDTO(
             FullName: user.FullName!,
             Email: user.Email!,
+            Role: role,
             Token: Token
         );
     }
