@@ -3,6 +3,7 @@ using System.Security.Cryptography.X509Certificates;
 using MediatR;
 using Microsoft.IdentityModel.JsonWebTokens;
 using UserManagementApi.Application.DTOs;
+using UserManagementApi.Domain.Enums;
 using UserManagementApi.Domain.Interfaces;
 
 namespace UserManagementApi.Application.Commands;
@@ -22,6 +23,11 @@ public class LoginUserCommandHandler(IUserRepository userRepository, ITokenProvi
         if(!passwordCorrect)
         {
             throw new Exception("Uncorrect password");
+        }
+
+        if(user.Status == UserStatus.Banned)
+        {
+            throw new Exception("User is banned!");
         }
 
         var role = await userRepository.GetUserRole(user);
