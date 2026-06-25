@@ -1,11 +1,13 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Microsoft.VisualBasic;
 using UserManagementApi.Api;
 using UserManagementApi.Api.Exceptions;
 using UserManagementApi.Api.Extentions;
+using UserManagementApi.Domain.Constants;
 using UserManagementApi.Infrastructure.Data;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +39,18 @@ if(app.Environment.IsDevelopment())
     using var scope = app.Services.CreateScope();
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     dbContext.Database.Migrate();
+
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    if(!await roleManager.RoleExistsAsync(Roles.Admin))
+    {
+        await roleManager.CreateAsync(new IdentityRole(Roles.Admin));
+    }
+    if(!await roleManager.RoleExistsAsync(Roles.Member))
+    {
+        await roleManager.CreateAsync(new IdentityRole(Roles.Member));
+    }
+
+
 }
 
 app.UseHttpsRedirection();
