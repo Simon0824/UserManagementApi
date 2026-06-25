@@ -36,4 +36,12 @@ public class UsersController(ISender sender) : ControllerBase
         ));
         return Ok(loginResult);
     }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPost]
+    public async Task<IActionResult> BanUser([FromBody] BanUserDTO dto)
+    {
+        var banResult = await sender.Send(new BanUserCommand(dto.Email));
+        return Ok(banResult);
+    }
 }

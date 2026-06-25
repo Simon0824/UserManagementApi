@@ -10,6 +10,7 @@ using Microsoft.VisualBasic;
 using UserManagementApi.Application.DTOs;
 using UserManagementApi.Domain.Constants;
 using UserManagementApi.Domain.Entities;
+using UserManagementApi.Domain.Enums;
 using UserManagementApi.Domain.Interfaces;
 using UserManagementApi.Infrastructure.Data;
 
@@ -39,5 +40,11 @@ public class UserRepository(UserManager<UserEntity> userManager) : IUserReposito
     public async Task<IList<string>> GetUserRole(UserEntity user)
     {
         return await userManager.GetRolesAsync(user);
+    }
+
+    public async Task BanUser(UserEntity user)
+    {
+        user.Status = UserStatus.Banned;
+        await userManager.UpdateAsync(user);
     }
 }
