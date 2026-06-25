@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using UserManagementApi.Application.DTOs;
+using UserManagementApi.Domain.Constants;
 using UserManagementApi.Domain.Entities;
 using UserManagementApi.Domain.Interfaces;
 using UserManagementApi.Infrastructure.Data;
@@ -29,5 +30,14 @@ public class UserRepository(UserManager<UserEntity> userManager) : IUserReposito
     public async Task<bool> CheckPasswordUserMan(UserEntity user, string Password)
     {
         return await userManager.CheckPasswordAsync(user, Password);
+    }
+    public async Task AddRoleToUser(UserEntity user)
+    {
+        await userManager.AddToRoleAsync(user, Roles.Member);
+    }
+
+    public async Task<IList<string>> GetUserRole(UserEntity user)
+    {
+        return await userManager.GetRolesAsync(user);
     }
 }

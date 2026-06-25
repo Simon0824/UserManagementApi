@@ -12,7 +12,7 @@ using UserManagementApi.Infrastructure.Data;
 namespace UserManagementApi.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260624191622_InitialCreate")]
+    [Migration("20260625074732_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -235,10 +235,12 @@ namespace UserManagementApi.Infrastructure.Migrations
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.Property<string>("FullName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Password")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
                         .HasColumnType("text");
 
                     b.HasDiscriminator().HasValue("UserEntity");

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using UserManagementApi.Domain.Entities;
 
 namespace UserManagementApi.Domain.Interfaces;

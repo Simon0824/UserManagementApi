@@ -21,6 +21,7 @@ public class RegisterUserCommandHandler(IUserRepository userRepository) : IReque
         {
             throw new Exception("User cannot be registered");
         }
+        await userRepository.AddRoleToUser(user);
         return user;
     }
 }

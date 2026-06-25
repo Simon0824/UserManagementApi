@@ -1,5 +1,7 @@
 using System.ComponentModel;
+using System.Security.Claims;
 using MediatR;
+using Microsoft.IdentityModel.JsonWebTokens;
 using UserManagementApi.Application.DTOs;
 using UserManagementApi.Domain.Interfaces;
 
