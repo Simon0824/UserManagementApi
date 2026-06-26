@@ -11,7 +11,6 @@ using UserManagementApi.Domain.Interfaces;
 using UserManagementApi.Infrastructure.Auth;
 using UserManagementApi.Infrastructure.Data;
 using UserManagementApi.Infrastructure.Repositories;
-
 namespace UserManagementApi.Infrastructure;
 
 public static class DependencyInjection
@@ -22,8 +21,13 @@ public static class DependencyInjection
         {
                     options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
         });
+
+        services.AddMemoryCache();
+
+        
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ITokenProvider, TokenProvider>();
+        services.Decorate<IUserRepository, CachedUserRepository>();
 
         services.AddIdentity<UserEntity, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
