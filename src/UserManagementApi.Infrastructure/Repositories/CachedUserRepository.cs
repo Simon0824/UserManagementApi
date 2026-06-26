@@ -1,21 +1,31 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using UserManagementApi.Domain.Entities;
 using UserManagementApi.Domain.Interfaces;
 
 namespace UserManagementApi.Infrastructure.Repositories;
 
-public class CachedUserRepository(IUserRepository decorated, IMemoryCache memoryCache) : IUserRepository
+public class CachedUserRepository(IUserRepository decorated, IDistributedCache cache) : IUserRepository
 {
+    private const string cachedKey = "users";
 
-    public Task AddRoleToUser(UserEntity user)
+    private DistributedCacheEntryOptions cachedOptions = new ()
     {
-        return decorated.AddRoleToUser(user);
+        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+    };
+    public async Task AddRoleToUser(UserEntity user)
+    {
+        await decorated.AddRoleToUser(user);
+        await cache.RemoveAsync(cachedKey);
     }
 
-    public Task BanUser(UserEntity user)
+    public async Task BanUser(UserEntity user)
     {
-        return decorated.BanUser(user);
+        await decorated.BanUser(user);
+        await cache.RemoveAsync(cachedKey);
     }
 
     public Task<IdentityResult> ChangeUserPassword(UserEntity user, string currentPassword, string newPassword)
@@ -40,22 +50,39 @@ public class CachedUserRepository(IUserRepository decorated, IMemoryCache memory
 
     public async Task<IEnumerable<UserEntity>> GetUsers()
     {
-        var key = "users";
 
-        return (await  memoryCache.GetOrCreateAsync(
-            key,
-            entry =>
+        string? cachedUser = await cache.GetStringAsync(cachedKey);
+
+        IEnumerable<UserEntity>? userEntity;
+
+        if(string.IsNullOrEmpty(cachedUser))
+        {
+            userEntity = await decorated.GetUsers();
+
+            if(userEntity is null)
             {
-                entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(2));
-
-                return decorated.GetUsers();
+                return userEntity!;
             }
-        ))!;
+            await cache.SetStringAsync(
+                cachedKey, JsonSerializer.Serialize(userEntity), cachedOptions
+            );
+
+            return userEntity;
+        }
+
+        userEntity = JsonSerializer.Deserialize<IEnumerable<UserEntity>>(cachedUser);
+
+        return userEntity!;
     }
 
-    public Task<IdentityResult> UserRegister(UserEntity user, string Password)
+    public async Task<IdentityResult> UserRegister(UserEntity user, string Password)
     {
-        return decorated.UserRegister(user, Password);
+        var result = await decorated.UserRegister(user, Password);
+        if(result.Succeeded)
+        {
+            await cache.RemoveAsync(cachedKey);
+        }
+        return result;
     }
 
 }

@@ -26,7 +26,7 @@ public class UserRepository(UserManager<UserEntity> userManager) : IUserReposito
 
     public async Task<UserEntity> FindByEmailUserMan(string Email)
     {
-        return await userManager.FindByEmailAsync(Email);
+        return (await userManager.FindByEmailAsync(Email))!;
     }
 
     public async Task<bool> CheckPasswordUserMan(UserEntity user, string Password)

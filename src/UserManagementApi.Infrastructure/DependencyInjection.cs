@@ -23,8 +23,13 @@ public static class DependencyInjection
         });
 
         services.AddMemoryCache();
+        services.AddStackExchangeRedisCache(redisOptions =>
+        {
+            string connstring = configuration.GetConnectionString("Redis")!;
 
-        
+            redisOptions.Configuration = connstring;
+        });
+
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ITokenProvider, TokenProvider>();
         services.Decorate<IUserRepository, CachedUserRepository>();
