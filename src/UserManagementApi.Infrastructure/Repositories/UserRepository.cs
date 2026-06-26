@@ -53,4 +53,9 @@ public class UserRepository(UserManager<UserEntity> userManager) : IUserReposito
     {
         return userManager.Users.AsNoTracking().ToList();
     }
+
+    public async Task<IdentityResult> ChangeUserPassword(UserEntity user, string currentPassword, string newPassword)
+    {
+        return await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+    }
 }

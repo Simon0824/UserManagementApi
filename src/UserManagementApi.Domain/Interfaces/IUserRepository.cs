@@ -12,4 +12,5 @@ public interface IUserRepository
     Task<IList<string>> GetUserRole(UserEntity user);
     Task BanUser(UserEntity user);
     Task<IEnumerable<UserEntity>> GetUsers();
+    Task<IdentityResult> ChangeUserPassword(UserEntity user, string currentPassword, string newPassword);
 }

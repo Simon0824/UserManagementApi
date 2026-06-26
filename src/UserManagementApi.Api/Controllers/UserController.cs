@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -48,9 +49,21 @@ public class UsersController(ISender sender) : ControllerBase
 
     [Authorize(Roles = "Admin")]
     [HttpGet("GetAllUsers")]
-    public async Task<IActionResult> BGetUsers()
+    public async Task<IActionResult> GetUsers()
     {
         var users = await sender.Send(new GetAllUsersQuery());
         return Ok(users);
+    }
+
+    [HttpPost("ChangeUserPassword")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangeUserPasswordDTO dto)
+    {
+        var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+        var isChanged = await sender.Send(new ChangeUserPasswordCommand(
+            userEmail!,
+            dto.currentPassword,
+            dto.Password1,
+            dto.Password2));
+        return Ok(new {isChanged, Message = "Password changed"});
     }
 }
