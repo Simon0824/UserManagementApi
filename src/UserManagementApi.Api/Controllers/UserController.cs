@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserManagementApi.Application.Commands;
 using UserManagementApi.Application.DTOs;
+using UserManagementApi.Application.Queries;
 using UserManagementApi.Domain.Entities;
 using UserManagementApi.Domain.Interfaces;
 
@@ -38,10 +39,18 @@ public class UsersController(ISender sender) : ControllerBase
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpPost]
+    [HttpPost("BanUser")]
     public async Task<IActionResult> BanUser([FromBody] BanUserDTO dto)
     {
         var banResult = await sender.Send(new BanUserCommand(dto.Email));
         return Ok(banResult);
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpGet("GetAllUsers")]
+    public async Task<IActionResult> BGetUsers()
+    {
+        var users = await sender.Send(new GetAllUsersQuery());
+        return Ok(users);
     }
 }

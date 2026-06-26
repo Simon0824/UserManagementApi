@@ -11,4 +11,5 @@ public interface IUserRepository
     Task AddRoleToUser(UserEntity user);
     Task<IList<string>> GetUserRole(UserEntity user);
     Task BanUser(UserEntity user);
+    Task<IEnumerable<UserEntity>> GetUsers();
 }

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics.Contracts;
 using System.Formats.Asn1;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security;
@@ -46,5 +47,10 @@ public class UserRepository(UserManager<UserEntity> userManager) : IUserReposito
     {
         user.Status = UserStatus.Banned;
         await userManager.UpdateAsync(user);
+    }
+
+    public async Task<IEnumerable<UserEntity>> GetUsers()
+    {
+        return userManager.Users.AsNoTracking().ToList();
     }
 }
