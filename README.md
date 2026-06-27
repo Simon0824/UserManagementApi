@@ -5,14 +5,16 @@ REST API project built in Clean Architecture and CQRS pattern with postgreSQL db
 1. Clone the repository
    ```bash
    git clone https://github.com/Simon0824/UserManagementApi
+   cd UserManagementApi
    
 2. Add JWT secret to user-secrets:
    ```bash
    dotnet user-secrets set "Jwt:Secret" "Your_Secret__Long_Token"
    
-3. Run the project:
+3. Run with Docker (recommended):
    ```bash
-   dotnet run
+   docker-compose up --build
    
-4. Open Swagger UI:
-   http://localhost:{port}/swagger/index.html
+4. Or run locally:
+   ```bash
+   dotnet run --project src/UserManagementApi.Api
