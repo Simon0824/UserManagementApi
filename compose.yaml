@@ -1,13 +1,13 @@
 
 services:
-  usermanagementapiapi:
-    image: usermanagementapiapi
+  usermanagementapi:
+    image: usermanagementapi
     container_name: usermanagementapi.api
     build:
       context: .
       dockerfile: src/UserManagementApi.Api/Dockerfile
     ports:
-      - 5249:5249
+      - 8080:8080
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=usermanagement.database;Port=5432;Database=users;Username=postgres;Password=${DB_PASSWORD}
