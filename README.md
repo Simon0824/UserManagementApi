@@ -1,4 +1,6 @@
 # UserManagementApi
+**Live Demo**:  https://usermanagementapi-fnb4f9hpcndzetgm.polandcentral-01.azurewebsites.net/swagger/index.html
+
 REST API User Management module built with Clean Architecture, CQRS + MediatR and Entity Framework Core on PostgreSQL. Performance improved with Redis Distributed Caching.
 
 ## Features
@@ -43,7 +45,3 @@ REST API User Management module built with Clean Architecture, CQRS + MediatR an
 5. Open Swagger UI:
    ```bash
    http://localhost:8080/swagger
-
-## Run live demo:
-   ```bash
-   https://usermanagementapi-fnb4f9hpcndzetgm.polandcentral-01.azurewebsites.net/swagger/index.html
