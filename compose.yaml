@@ -27,7 +27,7 @@ services:
     environment:
          - POSTGRES_DB=users
          - POSTGRES_USER=postgres
-         - POSTGRES_PASSWORD=Szymeczkoo0824
+         - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
          - ./.containers/database:/var/lib/postgresql
     ports:
