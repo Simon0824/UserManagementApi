@@ -14,6 +14,10 @@ REST API project built in Clean Architecture and CQRS pattern with postgreSQL db
 3. Run with Docker (recommended):
    ```bash
    docker-compose up --build
+
+4. Run with azure deployment:
+   ```bash
+   https://usermanagementapi-fnb4f9hpcndzetgm.polandcentral-01.azurewebsites.net/swagger/index.html
    
 4. Or run locally:
    ```bash
