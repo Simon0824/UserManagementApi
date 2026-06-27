@@ -1,7 +1,7 @@
 # UserManagementApi
-**Live Demo**:  [https://usermanagementapi-fnb4f9hpcndzetgm.polandcentral-01.azurewebsites.net/swagger/index.html](link)
+**Live Demo**:  https://usermanagementapi-fnb4f9hpcndzetgm.polandcentral-01.azurewebsites.net/swagger/index.html
 
-REST API User Management module built with Clean Architecture, CQRS + MediatR and Entity Framework Core on PostgreSQL. Performance improved with Redis Distributed Caching.
+REST API User Management module built with **Clean Architecture**, **CQRS** + **MediatR** and **Entity Framework Core** on PostgreSQL. Performance improved with **Redis Distributed Caching**.
 
 ## Features
 - User registration and login with **JWT Bearer** authentication
