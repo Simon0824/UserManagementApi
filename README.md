@@ -18,3 +18,7 @@ REST API project built in Clean Architecture and CQRS pattern with postgreSQL db
 4. Or run locally:
    ```bash
    dotnet run --project src/UserManagementApi.Api
+
+5. Open Swagger UI:
+   ```bash
+   http://localhost:8080/swagger
