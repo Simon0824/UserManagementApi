@@ -1,5 +1,26 @@
 # UserManagementApi
-REST API project built in Clean Architecture and CQRS pattern with postgreSQL db operations for user management 
+REST API User Management module built with Clean Architecture, CQRS + MediatR and Entity Framework Core on PostgreSQL. Performance improved with Redis Distributed Caching.
+
+## Features
+- User registration and login with JWT Bearer authentication
+- Role-based access control (Admin / Member)
+- User banning system
+- Password change functionality
+- Protected admin endpoints (e.g. GetAllUsers)
+- Input validation with FluentValidation
+- Global exception handling with Problem Details
+- Redis caching for better performance
+- Docker support
+
+## Technologies
+- .NET 10 + ASP.NET Core
+- Clean Architecture + CQRS (MediatR)
+- Entity Framework Core + PostgreSQL
+- Redis (Distributed Cache)
+- JWT Authentication + ASP.NET Identity
+- FluentValidation
+- Docker + docker-compose
+- Swagger UI with JWT support
 
 ## How to Run
 1. Clone the repository
