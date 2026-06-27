@@ -14,10 +14,6 @@ REST API project built in Clean Architecture and CQRS pattern with postgreSQL db
 3. Run with Docker (recommended):
    ```bash
    docker-compose up --build
-
-4. Run with azure deployment:
-   ```bash
-   https://usermanagementapi-fnb4f9hpcndzetgm.polandcentral-01.azurewebsites.net/swagger/index.html
    
 4. Or run locally:
    ```bash
@@ -26,3 +22,7 @@ REST API project built in Clean Architecture and CQRS pattern with postgreSQL db
 5. Open Swagger UI:
    ```bash
    http://localhost:8080/swagger
+
+## Run live demo:
+   ```bash
+   https://usermanagementapi-fnb4f9hpcndzetgm.polandcentral-01.azurewebsites.net/swagger/index.html
