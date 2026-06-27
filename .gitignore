@@ -3,5 +3,10 @@ bin/
 obj/
 
 # Visual Studio
-.vs/
+.vscode/
 *.user
+
+# Docker / Databases
+.containers/
+.env
+.env.*

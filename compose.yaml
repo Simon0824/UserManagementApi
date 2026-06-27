@@ -1,0 +1,52 @@
+
+services:
+  usermanagementapiapi:
+    image: usermanagementapiapi
+    container_name: usermanagementapi.api
+    build:
+      context: .
+      dockerfile: src/UserManagementApi.Api/Dockerfile
+    ports:
+      - 5249:5249
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=usermanagement.database;Port=5432;Database=users;Username=postgres;Password=${DB_PASSWORD}
+      - ConnectionStrings__Redis=usermanagement.cache:6379,password=${CACHE__PASSWORD}
+      - Jwt__Secret=${SECRET_KEY}     
+    depends_on:
+      usermanagement.database:
+          condition: service_healthy
+      usermanagement.cache:
+          condition: service_started   
+    restart: always
+    networks:
+      - default
+  usermanagement.database:
+    image: postgres:18
+    container_name: usermanagement.database
+    environment:
+         - POSTGRES_DB=users
+         - POSTGRES_USER=postgres
+         - POSTGRES_PASSWORD=Szymeczkoo0824
+    volumes:
+         - ./.containers/database:/var/lib/postgresql
+    ports:
+         - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d users"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+  usermanagement.cache:
+    image: redis:7-alpine
+    command: redis-server --requirepass ${CACHE__PASSWORD}
+    restart: always
+    ports:
+          - 6379:6379
+    networks:
+      - default
+
+networks:
+   default:
+     driver: bridge
