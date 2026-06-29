@@ -1,5 +1,6 @@
 # UserManagementApi
 **Live Demo**:  https://usermanagementapi-fnb4f9hpcndzetgm.polandcentral-01.azurewebsites.net/swagger/index.html
+
 Use admin@user.com/Admin123! for admin endpoints
 
 REST API User Management module built with **Clean Architecture**, **CQRS** + **MediatR** and **Entity Framework Core** on PostgreSQL. Performance improved with **Redis Distributed Caching**.
